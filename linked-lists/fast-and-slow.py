@@ -35,6 +35,29 @@ def hasCycle(head: Node) -> bool:
             return True
     return False
 
+# Determine if the linked list has a cycle and
+# return the beginning of the cycle, otherwise return null.
+def cycleStart(head: Node) -> Node:
+    hasCycle = False
+    slow, fast = head, head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+        if slow == fast: # found cycle
+            hasCycle = True
+            break
+    
+    if not hasCycle:
+        return None
+    
+    slow2 = head
+    while slow != slow2:
+        slow = slow.next
+        slow2 = slow2.next
+    return slow
+
 def main():
     head = Node(1)
     a = Node(2)
@@ -48,10 +71,12 @@ def main():
     c.next = d
 
     print(middleOfLinkedList(head))
-
     print(hasCycle(head)) # false
-    d.next = b # create a cycle
+    print(cycleStart(head)) # None
+
+    d.next = a # create a cycle
     print(hasCycle(head)) # true
+    print(cycleStart(head)) # 2
 
 
 if __name__ == "__main__":
