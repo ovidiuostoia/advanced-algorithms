@@ -21,6 +21,20 @@ def middleOfLinkedList(head: Node) -> Node:
         fast = fast.next.next
     return slow
 
+# Time: O(n)
+# Space: O(1)
+def hasCycle(head: Node) -> bool:
+    slow, fast = head, head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+        # if there is a cycle, the pointers will overlap eventually
+        if fast == slow:
+            return True
+    return False
+
 def main():
     head = Node(1)
     a = Node(2)
@@ -34,6 +48,10 @@ def main():
     c.next = d
 
     print(middleOfLinkedList(head))
+
+    print(hasCycle(head)) # false
+    d.next = b # create a cycle
+    print(hasCycle(head)) # true
 
 
 if __name__ == "__main__":
